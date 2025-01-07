@@ -49,7 +49,6 @@ class Database:
         except:
             return False
             
-
 class Server:
     def __init__(self):
         self.Users = {}
