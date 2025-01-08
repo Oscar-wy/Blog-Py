@@ -48,7 +48,18 @@ class Database:
                 return result
         except:
             return False
-
+    def CreateUser(self, User):
+        try:
+            Values = (User.UUID, User.Username, User.Name, User.Password, User.SessionID)
+            with sqlite3.connect(DATABASE) as db:
+                cursor = db.cursor()
+                sql = """
+                        
+                      """
+                cursor.execute(sql, Values)
+                return True
+        except:
+            return False
             
 class ServerModule:
     def __init__(self):
