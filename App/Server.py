@@ -48,10 +48,13 @@ class Database:
                 return result
         except:
             return False
+
             
-class Server:
+class ServerModule:
     def __init__(self):
         self.Users = {}
+        self.Db = Database
     def SignUpUser(self, User):
         print(User.UUID)
-    
+    def SearchUser(self, Field):
+        self.Db.SearchUser(Field)

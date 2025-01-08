@@ -1,7 +1,8 @@
 import uuid;
-import Server
+import Server as ServerModule
 
-Database = Server.Database()
+Database = ServerModule.Database()
+Server = ServerModule.Server()
 
 class User:
     def __init__(self):
@@ -9,15 +10,17 @@ class User:
         self.UUID = ""
         self.Username = "Test"
         self.Name = ""
-        self.Password
+        self.Password = ""
         self.SessionID = ""
+        self.Server = Server
+        self.Database = Database
     def LogAssociate(self, UUID, Username, Name, Password, SessionID):
         self.UUID = UUID
         self.Username = Username
         self.Name = Name
         self.Password = Password
         self.SessionID = SessionID
-        self.Blogs = Database.GetUserBlogs()
+        self.Blogs = Database.GetUserBlogs(self.UUID)
     def Signup(self, Username, Name, Password):
         UserExists = Database.SearchUser(Username)
         if UserExists:
@@ -27,8 +30,5 @@ class User:
         print(uuiD, SessionID)
         if Database.SearchUser(uuiD):
             return False
-        self.LogAssociate(uuiD, Username, Name, Password, SessionID)
+        self.LogAssociate(UUID=uuiD, Username=Username, Name=Name, Password=Password, SessionID=SessionID)
         Server.SignUpUser(self)
-        
-tempUser = User
-tempUser.Signup(tempUser, "Username", "Name", "Password")
