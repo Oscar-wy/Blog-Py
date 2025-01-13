@@ -18,19 +18,20 @@ with sqlite3.connect(DATABASE) as db:
 class Database:
     def SearchUser(self, Field):
         try:
-          Values = (Field, Field)
-          with sqlite3.connect(DATABASE) as db:
-              cursor = db.cursor()
-              sql = """
-                      SELECT Username FROM User()
-                      WHERE Username = ? OR UUID = ?;
-                    """
-              cursor.execute(sql, Values)
-              result, = cursor.fetchone()
-              if result == Field:
-                  return True
-              else:
-                  return False
+            Values = (Field, Field)
+            with sqlite3.connect(DATABASE) as db:
+                cursor = db.cursor()
+                sql = """
+                        SELECT Username FROM User
+                        WHERE Username = ? OR UUID = ?;
+                      """
+                cursor.execute(sql, Values)
+                result = cursor.fetchone()
+                print(result)
+                if result == Field:
+                    return False
+                else:
+                    return True
         except sqlite3.Error as err:
             print(err)
             return False
@@ -48,24 +49,29 @@ class Database:
                 return result
         except:
             return False
-    def CreateUser(self, User):
+    def CreateUser(self, user):
         try:
-            Values = (User.UUID, User.Username, User.Name, User.Password, User.SessionID)
+            Values = (user.UUID, user.Username, user.Name, user.Password, user.SessionID)
             with sqlite3.connect(DATABASE) as db:
                 cursor = db.cursor()
                 sql = """
-                        
+                        INSERT INTO User(UUID, Username, Name, Password, SessionIDs)
+                        Values(?, ?, ?, ?, ?)
                       """
                 cursor.execute(sql, Values)
                 return True
-        except:
+        except sqlite3.Error as err:
+            print(err)
             return False
             
 class ServerModule:
     def __init__(self):
         self.Users = {}
-        self.Db = Database
+        self.Db = Database()
     def SignUpUser(self, User):
-        print(User.UUID)
+        if self.Db.CreateUser(User):
+            return True
+        else:
+            return False
     def SearchUser(self, Field):
-        self.Db.SearchUser(Field)
+        return self.Db.SearchUser(Field)

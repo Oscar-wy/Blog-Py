@@ -1,15 +1,18 @@
 import random
-from App import User as UserModule
+import User as userModule
 
-User = UserModule.User()
+if __name__ == "__main__":
+    User = userModule.User()
 
-def Signup():
-    NoUser = False
-    while not NoUser:
-        Username = input("Enter A Username: ")
-        NoUser = User.Server.SearchUser(Username)
-        if NoUser:
-            print("Username Exists")
-    Name = input("Enter Name: ")
-    Password = input("Enter Password: ")
-    User.Signup(Username, Name, Password)
+    def Signup():
+        NoUser = False
+        while not NoUser:
+            Username = input("Enter A Username: ")
+            NoUser = User.Server.SearchUser(Username)
+            if not NoUser:
+                print("Username Exists")
+        Name = input("Enter Name: ")
+        Password = input("Enter Password: ")
+        print(User.Signup(Username, Name, Password))
+    
+    Signup()
